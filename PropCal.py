@@ -1,28 +1,29 @@
 __author__ = 'Avantha'
 import math
-i =0
-A =[]
-B =[]
-xa =[]
-ya =[]
-xb =[]
-yb =[]
-aa =[]
-ba =[]
-alpha =[]
-a = 0.35
-b = 0.9
-xa.append(0.1)
-ya.append(0.8)
-xb.append(0.4)
-yb.append(0.6)
-aa.append(0.3)
-ba.append(0.9)
-exp = 0.5
-ln_rate = 1
-er=[]
-A_err =[]
-B_err =[]
+
+i = 0  # counter
+A = []  # Nuron 1
+B = []  # Nuron 2
+xa = []  # input x to Nuron A weight
+ya = []  # input y to Nuron A weight
+xb = []  # input x to Nuron B weight
+yb = []  # input y to Nuron B weight
+aa = []  # Nuron A to output Weight
+ba = []  # Nuron B to output weight
+alpha = []  # output
+a = 0.35  # input 1
+b = 0.9  # unpit 2
+xa.append(0.1)  # random weight
+ya.append(0.8)  # random weight
+xb.append(0.4)  # random weight
+yb.append(0.6)  # random weight
+aa.append(0.3)  # random weight
+ba.append(0.9)  # random weight
+exp = 0.5  # expected output
+ln_rate = 1  # Learning rate
+er = []  # error
+A_err = []  # Nuron A error
+B_err = []  # Nuron B error
 
 def NuralVal(v_in1, v_in2, w1, w2):
     Nuron = 1 / (1 + math.exp(((v_in1 * w1) + (v_in2 * w2)) * -1))
@@ -60,7 +61,8 @@ while  i<=100:
     #print('A is :',A[i])
     #print('B is :',B[i])
     #print('value for output:', alpha[i])
-    print(er[i])
+    print('Error:', er[i], 'Output:', alpha[i])
+
     #print(aa[i+1], ba[i+1])
     #print(A_err[i], B_err[i])
     #print('', xa[i+1], '\n', ya[i+1], '\n', xb[i+1], '\n', yb[i+1])
