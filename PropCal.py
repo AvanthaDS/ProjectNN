@@ -7,18 +7,18 @@ import random
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
-class dynamicnuralval:
+class DynamicNeuralVal:
     w = []
     inw = []
     ouw = []
 
-    def __init__(self, inlst, nofN, outlst):
+    def __init__(self, in_lst, nof_n, out_lst):
 
         # defining the class variables
-        self.inVal = inlst
-        self.outVal = outlst
+        self.inVal = in_lst
+        self.outVal = out_lst
         self.num_in = len(self.inVal)  # number of inputs
-        self.num_N = nofN  # number of Neurones
+        self.num_N = nof_n  # number of Neurones
         self.num_out = len(self.outVal)  # number of outputs
         self.num_inw = len(self.inVal) * self.num_N  # number of input weights (number of inputs x number of neurons)
         self.num_ouw = len(self.outVal) * self.num_N  # number of output weights (number of outputs x number of neurons)
@@ -37,21 +37,21 @@ class dynamicnuralval:
 
         # calculating the neuron values
 
-    def dumNcal(self):
-        N = []
+    def dum_n_cal(self):
+        n_product = []
         i = 1
         while i <= self.num_inw:
             for x in self.inVal:
-                N.append(x * self.inw[
-                    i - 1])  # This will create a list 'N' and add the product of Input value in to the weight.
+                n_product.append(x * self.inw[
+                    i - 1])  # This will create a list 'n_product' and add the product of Input value in to the weight.
                 i += 1
 
         k = 0.0
         n_val_lst = []
         brk = self.num_in
 
-        while k < len(N):
-            n_sum = sum(N[int(k):int(k + brk)])  # break the series N in to chuncks and create the summation
+        while k < len(n_product):
+            n_sum = sum(n_product[int(k):int(k + brk)])  # break the series N in to chuncks and create the summation
             n_val = 1 / (1 + math.exp(n_sum * -1))  # calculate the neron value
             n_val_lst.append(n_val)  # add the neuron value to a list
             k += brk
@@ -64,12 +64,12 @@ in_l = [0.1, 0.7]  # input list
 out_l = [1]  # output list
 n_num = 2  # number of Neurons required
 
-av2 = dynamicnuralval(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
+av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
 
-av2.dumNcal()
+av2.dum_n_cal()
 print(av2.inVal)
 print(av2.inw)
-print(av2.dumNcal())
+print(av2.dum_n_cal())
 
 
 
