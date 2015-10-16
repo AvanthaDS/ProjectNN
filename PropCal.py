@@ -1,92 +1,75 @@
 __author__ = 'Avantha'
 import math
 import random
-'''
-i = 0  # counter
-A = []  # Nuron 1
-B = []  # Nuron 2
-xa = []  # input x to Nuron A weight
-ya = []  # input y to Nuron A weight
-xb = []  # input x to Nuron B weight
-yb = []  # input y to Nuron B weight
-aa = []  # Nuron A to output Weight
-ba = []  # Nuron B to output weight
-alpha = []  # output
-a = 0.35  # input 1
-b = 0.9  # unpit 2
-xa.append(0.1)  # random weight
-ya.append(0.8)  # random weight
-xb.append(0.4)  # random weight
-yb.append(0.6)  # random weight
-aa.append(0.3)  # random weight
-ba.append(0.9)  # random weight
-exp = 0.5  # expected output
-ln_rate = 1  # Learning rate
-er = []  # error
-A_err = []  # Nuron A error
-B_err = []  # Nuron B error
-'''
-# trying to increase the unputs -- all considering for one neuron layer
+
+
+# trying to increase the inputs -- all considering for one neuron layer
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
+class dynamicnuralval:
+    w = []
+    inw = []
+    ouw = []
 
-class DynamicNuralVal:
+    def __init__(self, inlst, nofN, outlst):
 
-    w =[]
-    inw=[]
-    ouw=[]
-    inVal=[2,5]
-    outVal=[1]
+        # defining the class variables
+        self.inVal = inlst
+        self.outVal = outlst
+        self.num_in = len(self.inVal)  # number of inputs
+        self.num_N = nofN  # number of Neurones
+        self.num_out = len(self.outVal)  # number of outputs
+        self.num_inw = len(self.inVal) * self.num_N  # number of input weights (number of inputs x number of neurons)
+        self.num_ouw = len(self.outVal) * self.num_N  # number of output weights (number of outputs x number of neurons)
 
-    def __init__(self,nofN):
+        # assigning random weights for the input synapse
         i = 1
-        j = 1
-        self.num_in = len(self.inVal)
-        self.num_N = nofN
-        self.num_out = len(self.outVal)
-        self.num_inw = len(self.inVal)*self.num_N
-        self.num_ouw = len(self.outVal)*self.num_N
-
-
-        '''while i <= self.num_wts:
-            self.w.append(round(random.random(),4))
-            i +=1'''
-
         while i <= self.num_inw:
-            self.inw.append(round(random.random(),4))
-            i +=1
+            self.inw.append(round(random.random(), 1))
+            i += 1
 
+        # assigning random weights for the output synapse
+        j = 1
         while j <= self.num_ouw:
-            self.ouw.append(round(random.random(),4))
-            j +=1
+            self.ouw.append(round(random.random(), 1))
+            j += 1
 
-        print(self.inw)
-        print(self.ouw)
+        # calculating the neuron values
 
-    def NCalc(self):
-        p=0
+    def dumNcal(self):
+        N = []
+        i = 1
+        while i <= self.num_inw:
+            for x in self.inVal:
+                N.append(x * self.inw[
+                    i - 1])  # This will create a list 'N' and add the product of Input value in to the weight.
+                i += 1
 
-        k=0
-        while k<self.num_in:
-            print(self.inVal[k],self.inw[p])
-            print(k,p)
-            k+=1
-            p+=self.num_in
+        k = 0.0
+        n_val_lst = []
+        brk = self.num_in
+
+        while k < len(N):
+            n_sum = sum(N[int(k):int(k + brk)])  # break the series N in to chuncks and create the summation
+            n_val = 1 / (1 + math.exp(n_sum * -1))  # calculate the neron value
+            n_val_lst.append(n_val)  # add the neuron value to a list
+            k += brk
+
+        return n_val_lst
 
 
-'''        for a in self.inVal:
-            p=0
-            k=0
-            while k < self.num_in:
-                print(self.inVal[k],self.inw[p])
-                p+=self.num_in # increment the weight position by the number of inputs
-                k+=1
-'''
+# user inputs
+in_l = [0.1, 0.7]  # input list
+out_l = [1]  # output list
+n_num = 2  # number of Neurons required
 
+av2 = dynamicnuralval(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
 
-av2 = DynamicNuralVal(2)
-av2.NCalc()
+av2.dumNcal()
+print(av2.inVal)
+print(av2.inw)
+print(av2.dumNcal())
 
 
 
