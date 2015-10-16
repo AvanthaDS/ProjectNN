@@ -42,10 +42,8 @@ class DynamicNeuralVal:
         i = 1
         while i <= self.num_inw:
             for x in self.inVal:
-                n_product.append(x * self.inw[
-                    i - 1])  # This will create a list 'n_product' and add the product of Input value in to the weight.
-                i += 1
-
+                n_product.append(x * self.inw[i - 1])    # This will create a list 'n_product'
+                i += 1                                   # and add the product of Input value in to the weight.
         k = 0.0
         n_val_lst = []
         brk = self.num_in
