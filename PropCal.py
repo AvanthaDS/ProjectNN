@@ -1,6 +1,7 @@
 __author__ = 'Avantha'
 import math
-
+import random
+'''
 i = 0  # counter
 A = []  # Nuron 1
 B = []  # Nuron 2
@@ -24,9 +25,81 @@ ln_rate = 1  # Learning rate
 er = []  # error
 A_err = []  # Nuron A error
 B_err = []  # Nuron B error
+'''
+# trying to increase the unputs -- all considering for one neuron layer
+# Number of input weight = number of inputs x Neurons
+# Number if output weights = number of outputs Neurons
+
+
+class DynamicNuralVal:
+
+    w =[]
+    inw=[]
+    ouw=[]
+    inVal=[2,5]
+    outVal=[1]
+
+    def __init__(self,nofN):
+        i = 1
+        j = 1
+        self.num_in = len(self.inVal)
+        self.num_N = nofN
+        self.num_out = len(self.outVal)
+        self.num_inw = len(self.inVal)*self.num_N
+        self.num_ouw = len(self.outVal)*self.num_N
+
+
+        '''while i <= self.num_wts:
+            self.w.append(round(random.random(),4))
+            i +=1'''
+
+        while i <= self.num_inw:
+            self.inw.append(round(random.random(),4))
+            i +=1
+
+        while j <= self.num_ouw:
+            self.ouw.append(round(random.random(),4))
+            j +=1
+
+        print(self.inw)
+        print(self.ouw)
+
+    def NCalc(self):
+        p=0
+
+        k=0
+        while k<self.num_in:
+            print(self.inVal[k],self.inw[p])
+            print(k,p)
+            k+=1
+            p+=self.num_in
+
+
+'''        for a in self.inVal:
+            p=0
+            k=0
+            while k < self.num_in:
+                print(self.inVal[k],self.inw[p])
+                p+=self.num_in # increment the weight position by the number of inputs
+                k+=1
+'''
+
+
+av2 = DynamicNuralVal(2)
+av2.NCalc()
+
+
+
+
+
+
+
+
+'''
 
 def NuralVal(v_in1, v_in2, w1, w2):
-    Nuron = 1 / (1 + math.exp(((v_in1 * w1) + (v_in2 * w2)) * -1))
+    f = ((v_in1 * w1) + (v_in2 * w2))
+    Nuron = 1 / (1 + math.exp(f*-1))
     return Nuron
 
 
@@ -68,4 +141,6 @@ while  i<=100:
     #print('', xa[i+1], '\n', ya[i+1], '\n', xb[i+1], '\n', yb[i+1])
 
     i += 1
+'''
+
 
