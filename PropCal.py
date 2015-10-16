@@ -3,7 +3,7 @@ import math
 import random
 
 
-# Trying to calculate the output's and first error
+# Trying to calculate the back propagation calculations
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
@@ -81,7 +81,7 @@ class DynamicNeuralVal:
         self.oval_list = out_val_last
         return self.oval_list
 
-    def o_error(self):
+    def dum_o_error(self):
         target = self.outVal
         out = self.oval_list
         i = 1
@@ -93,21 +93,55 @@ class DynamicNeuralVal:
         return self.err
 
 
+class ErrorCalc:
+    def __init__(self, w, err, prev_o, lrn):
+        self.new_w = []
+        self.lrn_rate = lrn
+        self.w = w
+        self.err = err
+        self.prev_o = prev_o
+        self.num_w = len(self.w)
+        print(self.w)
+        print(self.err)
+        print(self.prev_o)
+        print(self.num_w)
+
+    def dum_w_new(self):
+        i = 1
+        for x in self.err:
+            for y in self.prev_o:
+                print(self.w[i - 1], x, y)
+                self.new_w.append(self.w[i - 1] + (self.lrn_rate * x * y))
+                i += 1
+
 # user inputs
 in_l = [0.1, 0.7]  # input list
 out_l = [1, 1]  # output list
-n_num = 2  # number of Neurons required
+n_num = 3  # number of Neurons required
+lrn_rate = 1  # enter learning rate
 
 av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
-
 av2.dum_n_cal()
-print(av2.inVal)
-print(av2.inw)
-print(av2.ouw)
-print(av2.dum_n_cal())
-# av2.dum_out_cal(av2.dum_n_cal())
-print(av2.dum_out_cal())
-print(av2.o_error())
+av2.dum_out_cal()
+av2.dum_o_error()
+
+x = av2.ouw
+y = av2.err
+z = av2.nval_list
+q = lrn_rate
+av3 = ErrorCalc(x, y, z, q)
+av3.dum_w_new()
+
+
+# print(av2.inVal)
+# print(av2.inw)
+# print(av2.ouw)
+# print(av2.dum_n_cal())
+# print(av2.dum_out_cal())
+# print(av2.dum_o_error())
+
+
+
 
 
 
