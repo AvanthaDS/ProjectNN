@@ -3,7 +3,7 @@ import math
 import random
 
 
-# trying to increase the inputs -- all considering for one neuron layer
+# Trying to calculate the output's and first error
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
@@ -22,17 +22,20 @@ class DynamicNeuralVal:
         self.num_out = len(self.outVal)  # number of outputs
         self.num_inw = len(self.inVal) * self.num_N  # number of input weights (number of inputs x number of neurons)
         self.num_ouw = len(self.outVal) * self.num_N  # number of output weights (number of outputs x number of neurons)
+        self.nval_list = []  # this will be populated from the output calculation function
+        self.oval_list = []  # this will be populated from the output calculation function
+        self.err = []
 
         # assigning random weights for the input synapse
         i = 1
         while i <= self.num_inw:
-            self.inw.append(round(random.random(), 1))
+            self.inw.append(round(random.random(), 3))
             i += 1
 
         # assigning random weights for the output synapse
         j = 1
         while j <= self.num_ouw:
-            self.ouw.append(round(random.random(), 1))
+            self.ouw.append(round(random.random(), 3))
             j += 1
 
         # calculating the neuron values
@@ -54,12 +57,45 @@ class DynamicNeuralVal:
             n_val_lst.append(n_val)  # add the neuron value to a list
             k += brk
 
-        return n_val_lst
+        self.nval_list = n_val_lst  # passing the neuron value list to output calculation
+        return self.nval_list  # not important its defined for debugging purposes
+
+    def dum_out_cal(self):
+        val_neuron = self.nval_list
+        o_product = []
+        i = 1
+        while i <= self.num_ouw:
+            for x in val_neuron:
+                o_product.append(x * self.ouw[i - 1])
+                i += 1
+        k = 0.0
+        out_val_last = []
+        brk = len(val_neuron)
+
+        while k < len(o_product):
+            o_sum = sum(o_product[int(k):int(k + brk)])
+            o_val = 1 / (1 + math.exp(o_sum * -1))
+            out_val_last.append(o_val)
+            k += brk
+
+        self.oval_list = out_val_last
+        return self.oval_list
+
+    def o_error(self):
+        target = self.outVal
+        out = self.oval_list
+        i = 1
+
+        while i <= len(target):
+            er = (target[i - 1] - out[i - 1]) * (1 - out[i - 1]) * out[i - 1]
+            self.err.append(er)
+            i += 1
+        return self.err
 
 
 # user inputs
 in_l = [0.1, 0.7]  # input list
-out_l = [1]  # output list
+out_l = [1, 1]  # output list
 n_num = 2  # number of Neurons required
 
 av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
@@ -67,7 +103,12 @@ av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calc
 av2.dum_n_cal()
 print(av2.inVal)
 print(av2.inw)
+print(av2.ouw)
 print(av2.dum_n_cal())
+# av2.dum_out_cal(av2.dum_n_cal())
+print(av2.dum_out_cal())
+print(av2.o_error())
+
 
 
 
