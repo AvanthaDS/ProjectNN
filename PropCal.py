@@ -93,7 +93,7 @@ class DynamicNeuralVal:
         return self.err
 
 
-class ErrorCalc:
+class NewWCalc:
     def __init__(self, w, err, prev_o, lrn):
         self.new_w = []
         self.lrn_rate = lrn
@@ -101,23 +101,49 @@ class ErrorCalc:
         self.err = err
         self.prev_o = prev_o
         self.num_w = len(self.w)
-        print(self.w)
-        print(self.err)
-        print(self.prev_o)
-        print(self.num_w)
 
     def dum_w_new(self):
         i = 1
         for x in self.err:
             for y in self.prev_o:
-                print(self.w[i - 1], x, y)
+                # print(self.w[i - 1], x, y)
                 self.new_w.append(self.w[i - 1] + (self.lrn_rate * x * y))
                 i += 1
+        return self.new_w
+
+
+class HidnErroCalc:
+    def __init__(self, nout, new_outw, outerr):
+        w_product = []
+        self.newoutw = new_outw
+        self.hdnout = nout
+        self.out_er = outerr
+        self.brk = len(self.hdnout)
+        self.newr_out_errs = []
+
+    def out_errors(self):
+        i = 0
+        for x in self.hdnout:
+            k = 0
+            out_w_prods = []  # to store the out put to weight product
+            for y in self.out_er:
+                product = y * self.newoutw[i + k]
+                out_w_prods.append(product)
+                k += self.brk
+            i += 1
+            output_err = x * (1 - x) * sum(out_w_prods)
+            self.newr_out_errs.append(output_err)
+
+        return self.newr_out_errs
+
+
+
+
 
 # user inputs
 in_l = [0.1, 0.7]  # input list
-out_l = [1, 1]  # output list
-n_num = 3  # number of Neurons required
+out_l = [0.3, 0.4]  # output list
+n_num = 2  # number of Neurons required
 lrn_rate = 1  # enter learning rate
 
 av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
@@ -129,8 +155,19 @@ x = av2.ouw
 y = av2.err
 z = av2.nval_list
 q = lrn_rate
-av3 = ErrorCalc(x, y, z, q)
+av3 = NewWCalc(x, y, z, q)
 av3.dum_w_new()
+
+q = av3.new_w
+av4 = HidnErroCalc(z, q, y)
+print('out put weight:', av2.ouw)
+print('new out put weight:', av3.new_w)
+print(av4.out_errors())
+
+
+
+
+
 
 
 # print(av2.inVal)
