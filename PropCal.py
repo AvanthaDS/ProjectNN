@@ -131,38 +131,51 @@ class HidnErroCalc:
                 out_w_prods.append(product)
                 k += self.brk
             i += 1
+
             output_err = x * (1 - x) * sum(out_w_prods)
             self.newr_out_errs.append(output_err)
 
         return self.newr_out_errs
 
 
-
-
-
-# user inputs
+# user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
 in_l = [0.1, 0.7]  # input list
 out_l = [0.3, 0.4]  # output list
-n_num = 2  # number of Neurons required
+n_num = 3  # number of Neurons required
 lrn_rate = 1  # enter learning rate
 
+# forward pass 1st iteration
 av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
-av2.dum_n_cal()
-av2.dum_out_cal()
-av2.dum_o_error()
 
+print('N values:', av2.dum_n_cal())
+
+print('Output Vals:', av2.dum_out_cal())
+print('Out errors:', av2.dum_o_error())
+
+# back propagation output layer weights correction
 x = av2.ouw
 y = av2.err
 z = av2.nval_list
 q = lrn_rate
 av3 = NewWCalc(x, y, z, q)
-av3.dum_w_new()
+print('Old out wa:', av2.ouw)
+print('new out ws:', av3.dum_w_new())
 
+# Back propagation hidden layer error calculation
 q = av3.new_w
 av4 = HidnErroCalc(z, q, y)
-print('out put weight:', av2.ouw)
-print('new out put weight:', av3.new_w)
-print(av4.out_errors())
+m = av4.out_errors()
+# print(av4.out_errors())
+print('Hidden Layer errors:', m)
+
+# back propagation input layer weights correction
+l = av2.inw
+n = av2.inVal
+o = lrn_rate
+
+av5 = NewWCalc(l, m, n, o)
+print('ols input ws:', av2.inw)
+print('New input ws:', av5.dum_w_new())
 
 
 
