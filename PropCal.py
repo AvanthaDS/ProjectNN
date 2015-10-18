@@ -7,12 +7,9 @@ import random
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
+# C1 - N Number, Out put, Out Put error
 class DynamicNeuralVal:
-    w = []
-    inw = []
-    ouw = []
-
-    def __init__(self, in_lst, nof_n, out_lst):
+    def __init__(self, in_lst, nof_n, out_lst, in_ws, out_ws):
 
         # defining the class variables
         self.inVal = in_lst
@@ -20,23 +17,15 @@ class DynamicNeuralVal:
         self.num_in = len(self.inVal)  # number of inputs
         self.num_N = nof_n  # number of Neurones
         self.num_out = len(self.outVal)  # number of outputs
-        self.num_inw = len(self.inVal) * self.num_N  # number of input weights (number of inputs x number of neurons)
-        self.num_ouw = len(self.outVal) * self.num_N  # number of output weights (number of outputs x number of neurons)
+        self.num_inw = len(in_ws)
+        self.num_ouw = len(out_ws)
+        self.inw = in_ws
+        self.ouw = out_ws
         self.nval_list = []  # this will be populated from the output calculation function
         self.oval_list = []  # this will be populated from the output calculation function
         self.err = []
 
-        # assigning random weights for the input synapse
-        i = 1
-        while i <= self.num_inw:
-            self.inw.append(round(random.random(), 3))
-            i += 1
 
-        # assigning random weights for the output synapse
-        j = 1
-        while j <= self.num_ouw:
-            self.ouw.append(round(random.random(), 3))
-            j += 1
 
         # calculating the neuron values
 
@@ -92,6 +81,8 @@ class DynamicNeuralVal:
             i += 1
         return self.err
 
+
+# C2 - Output layer new Ws, C4 - Input Layer new Ws
 class NewWCalc:
     def __init__(self, w, err, prev_o, lrn):
         self.new_w = []
@@ -110,6 +101,8 @@ class NewWCalc:
                 i += 1
         return self.new_w
 
+
+# C3 - Hidden Layer Error
 class HidnErroCalc:
     def __init__(self, nout, new_outw, outerr):
         w_product = []
@@ -137,35 +130,67 @@ class HidnErroCalc:
 
 
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-ads_input_vals = [0.1, 0.7]  # input list
-ads_target_out = [0.3, 0.4]  # output list
-ads_neurons_n = 3  # number of Neurons required
-ads_lrn_rate = 1  # enter learning rate
+ads_input_vals = [0.1, 0.7]  # input list - fix
+ads_target_vals = [0.3, 0.2]  # output list - fix
+ads_neurons_n = 3  # number of Neurons required - Fix
+ads_lrn_rate = 1  # enter learning rate - Fix
+ads_itn_n = 100  # number of iterations required
+ads_itn_cntr = 1
+ads_in_ws = []
+ads_out_ws = []
 
-# forward pass 1st iteration C1 - <class><number>
-ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n, ads_target_out)    # pass the inputs to the neuron calc class
+# Creating the initial Ws
+i = 1
+j = 1
 
-ads_nvals = ads_C1.dum_n_cal()
-ads_outvals = ads_C1.dum_out_cal()
-ads_out_errs = ads_C1.dum_o_error()
-print('N values:', ads_nvals)
-print('Output Vals:', ads_outvals)
-print('Out errors:', ads_out_errs)
+while i <= len(ads_input_vals) * ads_neurons_n:
+    ads_in_ws.append(round(random.random(), 3))
+    i += 1
 
-# back propagation output layer weights correction
-ads_output_ws = ads_C1.ouw
-ads_C2 = NewWCalc(ads_output_ws, ads_out_errs, ads_nvals, ads_lrn_rate)
-print('Old out wa:', ads_C1.ouw)
-print('new out ws:', ads_C2.dum_w_new())
+while j <= len(ads_target_vals) * ads_neurons_n:
+    ads_out_ws.append(round(random.random(), 3))
+    j += 1
 
-# Back propagation hidden layer error calculation
-ads_new_w = ads_C2.new_w
-ads_C3 = HidnErroCalc(ads_nvals, ads_new_w, ads_out_errs)
-ads_hdnl_errs = ads_C3.out_errors()
-print('Hidden Layer errors:', ads_hdnl_errs)
+while ads_itn_cntr <= ads_itn_n:
+    # forward pass 1st iteration C1 - <class><number>
+    ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n, ads_target_vals, ads_in_ws,
+                              ads_out_ws)  # pass the inputs to the neuron calc class
+    ads_nvals = ads_C1.dum_n_cal()
+    ads_outvals = ads_C1.dum_out_cal()
+    ads_out_errs = ads_C1.dum_o_error()
 
-# back propagation input layer weights correction
-ads_input_ws = ads_C1.inw
-ads_C4 = NewWCalc(ads_input_ws, ads_hdnl_errs, ads_input_vals, ads_lrn_rate)
-print('ols input ws:', ads_C1.inw)
-print('New input ws:', ads_C4.dum_w_new())
+
+    # back propagation output layer weights correction
+    ads_output_ws = ads_C1.ouw
+    ads_C2 = NewWCalc(ads_output_ws, ads_out_errs, ads_nvals, ads_lrn_rate)
+    ads_new_ow = ads_C2.dum_w_new()
+
+
+    # Back propagation hidden layer error calculation
+    ads_new_w = ads_C2.new_w
+    ads_C3 = HidnErroCalc(ads_nvals, ads_new_w, ads_out_errs)
+    ads_hdnl_errs = ads_C3.out_errors()
+
+
+    # back propagation input layer weights correction
+    ads_input_ws = ads_C1.inw
+    ads_C4 = NewWCalc(ads_input_ws, ads_hdnl_errs, ads_input_vals, ads_lrn_rate)
+    ads_new_inw = ads_C4.dum_w_new()
+
+    # print('N values:', ads_nvals)
+    # print('Output Vals:', ads_outvals)
+    print('Out errors:', ads_out_errs)
+
+    # print('Hidden Layer errors:', ads_hdnl_errs)
+
+    # print('old input ws:', ads_in_ws)
+    # print('New input ws:', ads_new_inw)
+    # print('Old out wa:', ads_out_ws)
+    # print('new out ws:',ads_new_ow)
+    print('---------------------------------------')
+    ads_in_ws = ads_new_inw
+    ads_out_ws = ads_new_ow
+    # print(ads_in_ws)
+    # print(ads_out_ws)
+
+    ads_itn_cntr += 1
