@@ -81,7 +81,6 @@ class DynamicNeuralVal:
             i += 1
         return self.err
 
-
 # C2 - Output layer new Ws, C4 - Input Layer new Ws
 class NewWCalc:
     def __init__(self, w, err, prev_o, lrn):
@@ -100,7 +99,6 @@ class NewWCalc:
                 self.new_w.append(self.w[i - 1] + (self.lrn_rate * x * y))
                 i += 1
         return self.new_w
-
 
 # C3 - Hidden Layer Error
 class HidnErroCalc:
@@ -128,16 +126,16 @@ class HidnErroCalc:
 
         return self.newr_out_errs
 
-
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-ads_input_vals = [0.1, 0.7]  # input list - fix
-ads_target_vals = [0.3, 0.2]  # output list - fix
-ads_neurons_n = 3  # number of Neurons required - Fix
+ads_input_vals = [0.1, 0.7, .4, .5, .5, .3, .5]  # input list - fix
+ads_target_vals = [0.3, .4, .5, .5, .3, .1, .3]  # output list - fix
+ads_neurons_n = 9  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
 ads_itn_n = 100  # number of iterations required
 ads_itn_cntr = 1
 ads_in_ws = []
 ads_out_ws = []
+ads_abs_error = []
 
 # Creating the initial Ws
 i = 1
@@ -179,10 +177,15 @@ while ads_itn_cntr <= ads_itn_n:
 
     # print('N values:', ads_nvals)
     # print('Output Vals:', ads_outvals)
-    print('Out errors:', ads_out_errs)
+    # print('Out errors:', ads_out_errs)
+    ads_tmp_err = []
+    for x in ads_out_errs:
+        ads_tmp_err.append(abs(x))
+    print('Absolute total error:', sum(ads_tmp_err))
+    ads_abs_error.append(sum(ads_tmp_err))
+    del ads_tmp_err[:]
 
     # print('Hidden Layer errors:', ads_hdnl_errs)
-
     # print('old input ws:', ads_in_ws)
     # print('New input ws:', ads_new_inw)
     # print('Old out wa:', ads_out_ws)
@@ -194,3 +197,6 @@ while ads_itn_cntr <= ads_itn_n:
     # print(ads_out_ws)
 
     ads_itn_cntr += 1
+print('calculation complete')
+print(ads_abs_error[0])
+print(ads_abs_error[-1])
