@@ -3,7 +3,7 @@ import math
 import random
 
 
-# Trying to call in the input values from a file
+# # Training calculation is almost complete. Now need to create a validation and prediction code
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
