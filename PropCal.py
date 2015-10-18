@@ -127,8 +127,21 @@ class HidnErroCalc:
         return self.newr_out_errs
 
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-ads_input_vals = [0.1, 0.7]  # input list - fix
-ads_target_vals = [0.3, .4]  # output list - fix
+in_out_file = open('in_outs.csv', 'r')
+in_out_text = in_out_file.read()  # read the input file and assign to text
+f_list = in_out_text.split('\n')  # break the two line to input and output
+in_out_file.close()
+list1 = f_list[0].split(',')  # split the values using the ','
+list2 = f_list[1].split(',')
+list1 = [i for i in list1 if i != '']  # remove null values
+list2 = [i for i in list2 if i != '']
+list1 = list(map(float, list1))  # convert string to float so that calculations can take place
+list2 = list(map(float, list2))
+ads_input_vals = list1
+ads_target_vals = list2
+
+# ads_input_vals = [0.1, 0.7]  # input list - fix
+# ads_target_vals = [0.3, .4]  # output list - fix
 ads_neurons_n = 3  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
 ads_itn_n = 1000  # number of iterations required
@@ -194,16 +207,41 @@ while ads_itn_cntr <= ads_itn_n:
     ads_in_ws = ads_new_inw
     ads_out_ws = ads_new_ow
     # print(ads_in_ws)
-    # print(ads_out_ws)
+    #print(ads_out_ws)
 
     ads_itn_cntr += 1
+
+
 print('calculation complete')
+
+# -----------------------------------
+# Creating the weights file
+ads_w_file = 'ads_trained weights.txt'
+w_file = open(ads_w_file, 'w')
+w_file.write(str(ads_in_ws) + '\n')
+w_file.write(str(ads_out_ws) + '\n')
+w_file.close()
+print('w file write complete')
+
+# creating the error reduction file
 start_err = ads_abs_error[0]
 end_err = ads_abs_error[-1]
 print(start_err)
 print(end_err)
-ads_file = 'Abs_Err_Reduction.csv'
+ads_file = 'Ads_Err_Reduction.csv'
 fx = open(ads_file, 'w')
 for x in ads_abs_error:
     fx.write(str(x) + '\n')
 fx.close()
+print('Abs Error file write complete')
+
+# Creating setup information
+ads_config_file = 'ads_train_config_data.txt'
+w_config = open(ads_config_file, 'w')
+w_config.write(str(len(ads_input_vals)) + '\n')
+w_config.write(str(len(ads_target_vals)) + '\n')
+w_config.write(str(ads_neurons_n) + '\n')
+w_config.write(str(len(ads_in_ws)) + '\n')
+w_config.write(str(len(ads_out_ws)) + '\n')
+w_config.close()
+print('Config file write complete')

@@ -1,24 +1,22 @@
 __author__ = 'Avantha'
 
-file = open('in_outs.csv', 'r')
-text = file.read()
+in_out_file = open('in_outs.csv', 'r')
+in_out_text = in_out_file.read()
+in_out_file.close()
+templist = in_out_text.split('\n')
+list1 = templist[0].split(',')
+list2 = templist[1].split(',')
 
-f = text.split('\n')
+list1 = [i for i in list1 if i != '']
+list2 = [i for i in list2 if i != '']
 
-print(text)
-print(f[0])
-print(f[1])
-
-list1 = f[0].split(',')
-list2 = f[1].split(',')
+list1 = list(map(float, list1))
+list2 = list(map(float, list2))
 
 print(list1)
 print(list2)
-
-print(len(list1))
-print(len(list2))
-
-x = float(list1[0]) + float(list2[2])
+x = 'Ads file writing...'
 print(x)
-
-file.close()
+x = 'ads file write completed'
+print(x)
+print(list1[1] + list2[2])
