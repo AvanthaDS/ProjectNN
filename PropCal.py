@@ -92,7 +92,6 @@ class DynamicNeuralVal:
             i += 1
         return self.err
 
-
 class NewWCalc:
     def __init__(self, w, err, prev_o, lrn):
         self.new_w = []
@@ -110,7 +109,6 @@ class NewWCalc:
                 self.new_w.append(self.w[i - 1] + (self.lrn_rate * x * y))
                 i += 1
         return self.new_w
-
 
 class HidnErroCalc:
     def __init__(self, nout, new_outw, outerr):
@@ -139,114 +137,35 @@ class HidnErroCalc:
 
 
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-in_l = [0.1, 0.7]  # input list
-out_l = [0.3, 0.4]  # output list
-n_num = 3  # number of Neurons required
-lrn_rate = 1  # enter learning rate
+ads_input_vals = [0.1, 0.7]  # input list
+ads_target_out = [0.3, 0.4]  # output list
+ads_neurons_n = 3  # number of Neurons required
+ads_lrn_rate = 1  # enter learning rate
 
-# forward pass 1st iteration
-av2 = DynamicNeuralVal(in_l, n_num, out_l)  # pass the inputs to the neuron calculation class
-
-print('N values:', av2.dum_n_cal())
-
-print('Output Vals:', av2.dum_out_cal())
-print('Out errors:', av2.dum_o_error())
+# forward pass 1st iteration C1 - <class><number>
+ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n,
+                          ads_target_out)  # pass the inputs to the neuron calculation class
+ads_nvals = ads_C1.dum_n_cal()
+ads_outvals = ads_C1.dum_out_cal()
+ads_out_errs = ads_C1.dum_o_error()
+print('N values:', ads_nvals)
+print('Output Vals:', ads_outvals)
+print('Out errors:', ads_out_errs)
 
 # back propagation output layer weights correction
-x = av2.ouw
-y = av2.err
-z = av2.nval_list
-q = lrn_rate
-av3 = NewWCalc(x, y, z, q)
-print('Old out wa:', av2.ouw)
-print('new out ws:', av3.dum_w_new())
+ads_output_ws = ads_C1.ouw
+ads_C2 = NewWCalc(ads_output_ws, ads_out_errs, ads_nvals, ads_lrn_rate)
+print('Old out wa:', ads_C1.ouw)
+print('new out ws:', ads_C2.dum_w_new())
 
 # Back propagation hidden layer error calculation
-q = av3.new_w
-av4 = HidnErroCalc(z, q, y)
-m = av4.out_errors()
-# print(av4.out_errors())
-print('Hidden Layer errors:', m)
+ads_new_w = ads_C2.new_w
+ads_C3 = HidnErroCalc(ads_nvals, ads_new_w, ads_out_errs)
+ads_hdnl_errs = ads_C3.out_errors()
+print('Hidden Layer errors:', ads_hdnl_errs)
 
 # back propagation input layer weights correction
-l = av2.inw
-n = av2.inVal
-o = lrn_rate
-
-av5 = NewWCalc(l, m, n, o)
-print('ols input ws:', av2.inw)
-print('New input ws:', av5.dum_w_new())
-
-
-
-
-
-
-
-# print(av2.inVal)
-# print(av2.inw)
-# print(av2.ouw)
-# print(av2.dum_n_cal())
-# print(av2.dum_out_cal())
-# print(av2.dum_o_error())
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-
-def NuralVal(v_in1, v_in2, w1, w2):
-    f = ((v_in1 * w1) + (v_in2 * w2))
-    Nuron = 1 / (1 + math.exp(f*-1))
-    return Nuron
-
-
-def error_out(tgt, out):
-    res_error = (tgt - out) * (1 - out) * out
-    return res_error
-
-
-def error_nuron(prevEr, prevW, out):
-    NuronError = out * (1 - out) * (prevEr * prevW)
-    return NuronError
-
-
-def new_w(w, er, prev_out):
-    w_new = w + (ln_rate * er * prev_out)
-    return w_new
-
-while  i<=100:
-    A.append(NuralVal(a, b, xa[i], ya[i]))
-    B.append(NuralVal(a, b, xb[i], yb[i]))
-    alpha.append(NuralVal(A[i], B[i], aa[i], ba[i]))
-    er.append(error_out(exp, alpha[i]))
-    aa.append(new_w(aa[i], er[i], A[i]))
-    ba.append(new_w(ba[i], er[i], B[i]))
-    A_err.append(error_nuron(er[i], aa[i+1], A[i]))
-    B_err.append(error_nuron(er[i], ba[i+1], B[i]))
-    xa.append(new_w(xa[i], A_err[i], a))
-    ya.append(new_w(ya[i], A_err[i], a))
-    xb.append(new_w(xb[i], B_err[i], b))
-    yb.append(new_w(yb[i], B_err[i], b))
-
-    #print('A is :',A[i])
-    #print('B is :',B[i])
-    #print('value for output:', alpha[i])
-    print('Error:', er[i], 'Output:', alpha[i])
-
-    #print(aa[i+1], ba[i+1])
-    #print(A_err[i], B_err[i])
-    #print('', xa[i+1], '\n', ya[i+1], '\n', xb[i+1], '\n', yb[i+1])
-
-    i += 1
-'''
-
-
+ads_input_ws = ads_C1.inw
+ads_C4 = NewWCalc(ads_input_ws, ads_hdnl_errs, ads_input_vals, ads_lrn_rate)
+print('ols input ws:', ads_C1.inw)
+print('New input ws:', ads_C4.dum_w_new())
