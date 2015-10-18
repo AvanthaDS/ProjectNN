@@ -143,8 +143,8 @@ ads_neurons_n = 3  # number of Neurons required
 ads_lrn_rate = 1  # enter learning rate
 
 # forward pass 1st iteration C1 - <class><number>
-ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n,
-                          ads_target_out)  # pass the inputs to the neuron calculation class
+ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n, ads_target_out)    # pass the inputs to the neuron calc class
+
 ads_nvals = ads_C1.dum_n_cal()
 ads_outvals = ads_C1.dum_out_cal()
 ads_out_errs = ads_C1.dum_o_error()
