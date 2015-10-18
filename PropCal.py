@@ -3,7 +3,7 @@ import math
 import random
 
 
-# Trying to calculate the back propagation calculations
+# Trying to call in the input values from a file
 # Number of input weight = number of inputs x Neurons
 # Number if output weights = number of outputs Neurons
 
@@ -127,11 +127,11 @@ class HidnErroCalc:
         return self.newr_out_errs
 
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-ads_input_vals = [0.1, 0.7, .4, .5, .5, .3, .5]  # input list - fix
-ads_target_vals = [0.3, .4, .5, .5, .3, .1, .3]  # output list - fix
-ads_neurons_n = 9  # number of Neurons required - Fix
+ads_input_vals = [0.1, 0.7]  # input list - fix
+ads_target_vals = [0.3, .4]  # output list - fix
+ads_neurons_n = 3  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
-ads_itn_n = 100  # number of iterations required
+ads_itn_n = 1000  # number of iterations required
 ads_itn_cntr = 1
 ads_in_ws = []
 ads_out_ws = []
@@ -181,7 +181,7 @@ while ads_itn_cntr <= ads_itn_n:
     ads_tmp_err = []
     for x in ads_out_errs:
         ads_tmp_err.append(abs(x))
-    print('Absolute total error:', sum(ads_tmp_err))
+    #print('Absolute total error:', sum(ads_tmp_err))
     ads_abs_error.append(sum(ads_tmp_err))
     del ads_tmp_err[:]
 
@@ -190,7 +190,7 @@ while ads_itn_cntr <= ads_itn_n:
     # print('New input ws:', ads_new_inw)
     # print('Old out wa:', ads_out_ws)
     # print('new out ws:',ads_new_ow)
-    print('---------------------------------------')
+    #print('---------------------------------------')
     ads_in_ws = ads_new_inw
     ads_out_ws = ads_new_ow
     # print(ads_in_ws)
@@ -198,5 +198,12 @@ while ads_itn_cntr <= ads_itn_n:
 
     ads_itn_cntr += 1
 print('calculation complete')
-print(ads_abs_error[0])
-print(ads_abs_error[-1])
+start_err = ads_abs_error[0]
+end_err = ads_abs_error[-1]
+print(start_err)
+print(end_err)
+ads_file = 'Abs_Err_Reduction.csv'
+fx = open(ads_file, 'w')
+for x in ads_abs_error:
+    fx.write(str(x) + '\n')
+fx.close()
