@@ -8,6 +8,7 @@ from CommonClassfn import HidnErroCalc
 # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
 in_out_file = open('train_in_outs.csv', 'r')
 in_out_text = in_out_file.read()  # read the input file and assign to text
+
 f_list = in_out_text.split('\n')  # break the two line to input and output
 in_out_file.close()
 list1 = f_list[0].split(',')  # split the values using the ','

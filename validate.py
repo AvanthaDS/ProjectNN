@@ -26,7 +26,7 @@ in_cnfg_input_n = c_list[0]
 in_cnfg_output_n = c_list[1]
 in_cnfg_nwrn_n = c_list[2]
 in_cnfg_inw_n = c_list[3]
-in_cnfg_out_n = c_list[4]
+in_cnfg_outw_n = c_list[4]
 in_cnfg_lnrate = c_list[5]
 in_cnfg_tgt_er = c_list[6]
 
@@ -56,16 +56,19 @@ ads_in_ws = w_list1
 ads_out_ws = w_list2
 ads_abs_error = []
 
-
-ads_v1 = DynamicNeuralVal(ads_input_vals,in_cnfg_nwrn_n,ads_target_vals,ads_in_ws,ads_out_ws)
-ads_v1.dum_n_cal()
-ads_v1.dum_out_cal()
-ads_validate_er = ads_v1.dum_o_error()
-print('output errors:', ads_validate_er)
-for i in ads_validate_er:
-    ads_abs_error.append(abs(i))
-print('Absolute combined error:', sum(ads_abs_error))
-if in_cnfg_tgt_er > sum(ads_abs_error):
-    print('Validation PASS !!')
+# check if the input values number in training matches the validation input numbers
+if len(ads_input_vals) == in_cnfg_input_n and len(ads_target_vals) == in_cnfg_output_n:
+    ads_v1 = DynamicNeuralVal(ads_input_vals,in_cnfg_nwrn_n,ads_target_vals,ads_in_ws,ads_out_ws)
+    ads_v1.dum_n_cal()
+    ads_v1.dum_out_cal()
+    ads_validate_er = ads_v1.dum_o_error()
+    print('output errors:', ads_validate_er)
+    for i in ads_validate_er:
+        ads_abs_error.append(abs(i))
+    print('Absolute combined error:', sum(ads_abs_error))
+    if in_cnfg_tgt_er > sum(ads_abs_error):
+        print('Validation PASS !!')
+    else:
+        print('Validation FAIL !!!')
 else:
-    print('Validation FAIL !!!')
+    print('Validation inputs does not match training inputs !')

@@ -1,9 +1,12 @@
 __author__ = 'Avantha'
 
-from Test2 import test
+tst = open('data_train/train_inputs.csv','r')
+text = tst.read()
+tst.close()
+lst = text.split('\n')
+lst= [i for i in lst if i != '']
+lst = list(map(float, lst))
+print(lst)
 
-myclass = test(12,13)
 
-x = myclass.a
-print(x)
-print(myclass.mycal())
+
