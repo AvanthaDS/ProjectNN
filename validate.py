@@ -28,23 +28,44 @@ in_cnfg_nwrn_n = c_list[2]
 in_cnfg_inw_n = c_list[3]
 in_cnfg_out_n = c_list[4]
 in_cnfg_lnrate = c_list[5]
+in_cnfg_tgt_er = c_list[6]
 
+in_trained_w = open('ads_trained weights.txt')
+in_trained_text = in_trained_w.read()
+in_trained_w.close()
+w_list = in_trained_text.split('\n')
+w_cln_list = []
+for k in w_list:
+    symbols = ']['
+    for i in range(0, len(symbols)):
+        k = k.replace(symbols[i], "")
+    if len(k) > 0:
+        w_cln_list.append(k)
+w_list1 = w_cln_list[0]
+w_list1 = w_list1.split(',')
+w_list1 = list(map(float, w_list1))
+w_list2 = w_cln_list[1]
+w_list2 = w_list2.split(',')
+w_list2 = list(map(float, w_list2))
 
 ads_neurons_n = in_cnfg_nwrn_n
 ads_lrn_rate = in_cnfg_lnrate
 ads_itn_n = 1
 ads_itn_cntr = 1
-ads_in_ws = ads_input_vals
-ads_out_ws = ads_target_vals
+ads_in_ws = w_list1
+ads_out_ws = w_list2
 ads_abs_error = []
+
 
 ads_v1 = DynamicNeuralVal(ads_input_vals,in_cnfg_nwrn_n,ads_target_vals,ads_in_ws,ads_out_ws)
 ads_v1.dum_n_cal()
 ads_v1.dum_out_cal()
 ads_validate_er = ads_v1.dum_o_error()
-print(ads_validate_er)
+print('output errors:', ads_validate_er)
 for i in ads_validate_er:
     ads_abs_error.append(abs(i))
-print(sum(ads_abs_error)) # this value has to be very low and should be equal to the final value given in training
-
-
+print('Absolute combined error:', sum(ads_abs_error))
+if in_cnfg_tgt_er > sum(ads_abs_error):
+    print('Validation PASS !!')
+else:
+    print('Validation FAIL !!!')

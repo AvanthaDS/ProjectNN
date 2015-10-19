@@ -24,6 +24,7 @@ ads_neurons_n = 3  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
 ads_itn_n = 1000  # number of iterations required
 ads_itn_cntr = 1
+ads_tgt_error = 0.0001
 ads_in_ws = []
 ads_out_ws = []
 ads_abs_error = []
@@ -109,5 +110,6 @@ w_config.write(str(ads_neurons_n) + '\n')
 w_config.write(str(len(ads_in_ws)) + '\n')
 w_config.write(str(len(ads_out_ws)) + '\n')
 w_config.write(str(ads_lrn_rate)+'\n')
+w_config.write(str(ads_tgt_error))
 w_config.close()
 print('Config file write complete')
