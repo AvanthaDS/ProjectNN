@@ -5,11 +5,11 @@ from CommonClassfn import DynamicNeuralVal
 from CommonClassfn import NewWCalc
 from CommonClassfn import HidnErroCalc
 
-ads_neurons_n = 3  # number of Neurons required - Fix
+ads_neurons_n = 8  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
 ads_itn_n = 4  # number of iterations required
 ads_itn_cntr = 1  # do not change manually
-ads_tgt_error = 0.01
+ads_tgt_error = 0.0001
 ads_in_ws = []
 ads_out_ws = []
 ads_abs_error = []
@@ -99,6 +99,7 @@ else:
                 del ads_temp_err1[:]
 
         ads_abs_error.append(sum(ads_temp_err2) / len(ads_temp_err2))
+
         del ads_temp_err2[:]
 
         ads_numberof_itn += 1
