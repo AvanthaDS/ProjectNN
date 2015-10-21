@@ -117,7 +117,3 @@ class HidnErroCalc:
             self.newr_out_errs.append(output_err)
 
         return self.newr_out_errs
-
-
-
-

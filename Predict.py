@@ -9,13 +9,9 @@ c_list =[i for i in c_list if i != '']
 c_list = list(map(float,c_list))
 
 in_cnfg_input_n = c_list[0]
-in_cnfg_output_n = c_list[1]
 in_cnfg_nwrn_n = c_list[2]
-in_cnfg_inw_n = c_list[3]
-in_cnfg_outw_n = c_list[4]
 in_cnfg_lnrate = c_list[5]
-in_cnfg_tgt_er = c_list[6]
-# -----------------------------------------------------
+
 in_trained_w = open('data_cnfg/ads_trained weights.txt')
 in_trained_text = in_trained_w.read()
 in_trained_w.close()
@@ -43,8 +39,7 @@ t_in_lst = [i for i in t_in_lst if i != '']
 
 ads_neurons_n = in_cnfg_nwrn_n
 ads_lrn_rate = in_cnfg_lnrate
-ads_itn_n = 1
-ads_itn_cntr = 1
+
 ads_in_ws = w_list1
 ads_out_ws = w_list2
 ads_target_vals =[]
@@ -52,8 +47,8 @@ ads_prediction =[]
 
 for n in range(0, len(t_in_lst)):
     list1 = t_in_lst[n].split(',')
-    list1 = [i for i in list1 if i != '']  # remove null values
-    list1 = list(map(float, list1))  # convert string to float so that calculations can take place
+    list1 = [i for i in list1 if i != '']
+    list1 = list(map(float, list1))
     ads_input_vals = list1
 
     if len(ads_input_vals) == in_cnfg_input_n:
@@ -67,7 +62,26 @@ for n in range(0, len(t_in_lst)):
 ads_predict_rep = 'data_predict/Prediction_report.txt'
 report_file = open(ads_predict_rep, 'w')
 for i in range(0, len(ads_prediction)):
-    report_file.write('Pattern:' + str(i + 1) + '-' + str(ads_prediction[i]) + '\n')
+    round_values = []
+    clean_list = []
+    split_i = str(ads_prediction[i])
+    split_i = split_i.split(',')
+
+    for k in split_i:
+        symbols = ']['
+        for i in range(0, len(symbols)):
+            k = k.replace(symbols[i], "")
+        if len(k) > 0:
+            clean_list.append(k)
+    clean_list = list(map(float, clean_list))
+
+    for x in clean_list:
+        x = round(x)  # rounded to reflect the input
+        round_values.append(x)
+    print(round_values)
+    report_file.write('Pattern:' + str(i + 1) + '-' + str(round_values) + '\n')
+    del clean_list[:]
+    del round_values[:]
 
 report_file.close()
 print('Report generation complete')

@@ -11,8 +11,6 @@ c_list = list(map(float,c_list))
 in_cnfg_input_n = c_list[0]
 in_cnfg_output_n = c_list[1]
 in_cnfg_nwrn_n = c_list[2]
-in_cnfg_inw_n = c_list[3]
-in_cnfg_outw_n = c_list[4]
 in_cnfg_lnrate = c_list[5]
 in_cnfg_tgt_er = c_list[6]
 # -----------------------------------------------------
