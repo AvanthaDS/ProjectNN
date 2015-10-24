@@ -1,10 +1,8 @@
 __author__ = 'Avantha'
-import math
+from Graphtest import gRaph
 
-a = 2
+err = [100, 20, 40, 40, 20, 50, 70, 20, 60, 90]
 
-res1 = 1 / (1 + math.exp(a * -1))
-print(res1)
-
-res2 = (math.exp(2 * a) - 1) / (math.exp(2 * a) + 1)
-print(res2)
+ad1 = gRaph(err)
+ad1.create_nods()
+ad1.gr_plot()

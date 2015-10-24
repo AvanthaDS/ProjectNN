@@ -14,6 +14,7 @@ in_cnfg_nwrn_n = c_list[2]
 in_cnfg_lnrate = c_list[5]
 in_cnfg_tgt_er = c_list[6]
 in_cnfg_function = c_list[7]
+in_cnfg_bias = c_list[8]
 # -----------------------------------------------------
 in_trained_w = open('data_cnfg/ads_trained weights.txt')
 in_trained_text = in_trained_w.read()
@@ -73,7 +74,7 @@ else:
             # check if the input values number in training matches the validation input numbers
             if len(ads_input_vals) == in_cnfg_input_n and len(ads_target_vals) == in_cnfg_output_n:
                 ads_v1 = DynamicNeuralVal(ads_input_vals, in_cnfg_nwrn_n, ads_target_vals, ads_in_ws, ads_out_ws,
-                                          in_cnfg_function)
+                                          in_cnfg_function, in_cnfg_bias)
                 ads_v1.dum_n_cal()
                 ads_v1.dum_out_cal()
                 ads_validate_er = ads_v1.dum_o_error()

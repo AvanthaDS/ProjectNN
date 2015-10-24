@@ -17,6 +17,7 @@ in_cnfg_nwrn_n = c_list[2]
 in_cnfg_lnrate = c_list[5]
 in_cnfg_tgt_er = c_list[6]
 
+
 # -----------------------------------------------------
 in_trained_w = open('data_cnfg/ads_trained weights.txt')
 in_trained_text = in_trained_w.read()

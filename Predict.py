@@ -12,6 +12,7 @@ in_cnfg_input_n = c_list[0]
 in_cnfg_nwrn_n = c_list[2]
 in_cnfg_lnrate = c_list[5]
 in_cnfg_function = c_list[7]
+in_cnfg_bias = c_list[8]
 
 in_trained_w = open('data_cnfg/ads_trained weights.txt')
 in_trained_text = in_trained_w.read()
@@ -54,7 +55,7 @@ for n in range(0, len(t_in_lst)):
 
     if len(ads_input_vals) == in_cnfg_input_n:
         ads_v1 = DynamicNeuralVal(ads_input_vals, in_cnfg_nwrn_n, ads_target_vals, ads_in_ws, ads_out_ws,
-                                  in_cnfg_function)
+                                  in_cnfg_function, in_cnfg_bias)
         ads_v1.dum_n_cal()
         ads_target=ads_v1.dum_out_cal()
         ads_prediction.append(ads_target)

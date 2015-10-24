@@ -3,7 +3,7 @@ import math
 
 
 class DynamicNeuralVal:
-    def __init__(self, in_lst, nof_n, out_lst, in_ws, out_ws, fn):
+    def __init__(self, in_lst, nof_n, out_lst, in_ws, out_ws, fn, bias):
 
         # defining the class variables
         self.inVal = in_lst
@@ -13,6 +13,7 @@ class DynamicNeuralVal:
         self.num_out = len(self.outVal)  # number of outputs
         self.num_inw = len(in_ws)
         self.num_ouw = len(out_ws)
+        self.bias = bias
         self.function = fn
         self.inw = in_ws
         self.ouw = out_ws
@@ -28,17 +29,18 @@ class DynamicNeuralVal:
         while i <= self.num_inw:
             for x in self.inVal:
                 n_product.append(x * self.inw[i - 1])    # This will create a list 'n_product'
-                i += 1                                   # and add the product of Input value in to the weight.
+                i += 1  # makesure this indent is here   # and add the product of Input value in to the weight.
         k = 0.0
         n_val_lst = []
         brk = self.num_in
 
         while k < len(n_product):
-            n_sum = sum(n_product[int(k):int(k + brk)])  # break the series N in to chuncks and create the summation
+            n_sum = sum(
+                n_product[int(k):int(k + brk)]) + self.bias  # break the series N in to chuncks and create the summation
             if self.function == 1:
                 n_val = 1 / (1 + math.exp(n_sum * -1))  # calculate the neron value : fn for sigmoid
             else:
-                n_val = (-1 + math.exp(2 * n_sum)) / (1 + math.exp(2 * n_sum))  # fn for Hypabolic tangent
+                n_val = (math.exp(2 * n_sum) - 1) / (math.exp(2 * n_sum) + 1)  # fn for Hypabolic tangent
             n_val_lst.append(n_val)  # add the neuron value to a list
             k += brk
 
@@ -58,7 +60,7 @@ class DynamicNeuralVal:
         brk = len(val_neuron)
 
         while k < len(o_product):
-            o_sum = sum(o_product[int(k):int(k + brk)])
+            o_sum = sum(o_product[int(k):int(k + brk)]) + self.bias
             if self.function == 1:
                 o_val = 1 / (1 + math.exp(o_sum * -1))
             else:
