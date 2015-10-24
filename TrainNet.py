@@ -9,7 +9,8 @@ ads_neurons_n = 10  # number of Neurons required - Fix
 ads_lrn_rate = 1  # enter learning rate - Fix
 ads_itn_n = 4  # number of iterations required
 ads_itn_cntr = 1  # do not change manually
-ads_tgt_error = 0.001
+ads_tgt_error = 0.01
+ads_function = 1  # 1 - Sigmoid , 2 - Hypabolic tangent must trouble shoot the Htanjent issue( it dows not reduce)
 ads_in_ws = []
 ads_out_ws = []
 ads_abs_error = []
@@ -68,7 +69,8 @@ else:
 
                 # forward pass 1st iteration C1 - <class><number>
                 # pass the inputs to the neuron calc class
-                ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n, ads_target_vals, ads_in_ws, ads_out_ws)
+                ads_C1 = DynamicNeuralVal(ads_input_vals, ads_neurons_n, ads_target_vals, ads_in_ws, ads_out_ws,
+                                          ads_function)
                 ads_nvals = ads_C1.dum_n_cal()
                 ads_outvals = ads_C1.dum_out_cal()
                 ads_out_errs = ads_C1.dum_o_error()
@@ -105,6 +107,7 @@ else:
 
         ads_numberof_itn += 1
         ads_itn_cntr = ads_abs_error[-1]
+        # print(ads_abs_error[-1])
 
 
 print('calculation complete')
@@ -139,6 +142,7 @@ w_config.write(str(ads_neurons_n) + '\n')
 w_config.write(str(len(ads_in_ws)) + '\n')
 w_config.write(str(len(ads_out_ws)) + '\n')
 w_config.write(str(ads_lrn_rate)+'\n')
-w_config.write(str(ads_tgt_error))
+w_config.write(str(ads_tgt_error) + '\n')
+w_config.write(str(ads_function))
 w_config.close()
 print('Config file write complete')

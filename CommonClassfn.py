@@ -3,7 +3,7 @@ import math
 
 
 class DynamicNeuralVal:
-    def __init__(self, in_lst, nof_n, out_lst, in_ws, out_ws):
+    def __init__(self, in_lst, nof_n, out_lst, in_ws, out_ws, fn):
 
         # defining the class variables
         self.inVal = in_lst
@@ -13,6 +13,7 @@ class DynamicNeuralVal:
         self.num_out = len(self.outVal)  # number of outputs
         self.num_inw = len(in_ws)
         self.num_ouw = len(out_ws)
+        self.function = fn
         self.inw = in_ws
         self.ouw = out_ws
         self.nval_list = []  # this will be populated from the output calculation function
@@ -34,7 +35,10 @@ class DynamicNeuralVal:
 
         while k < len(n_product):
             n_sum = sum(n_product[int(k):int(k + brk)])  # break the series N in to chuncks and create the summation
-            n_val = 1 / (1 + math.exp(n_sum * -1))  # calculate the neron value
+            if self.function == 1:
+                n_val = 1 / (1 + math.exp(n_sum * -1))  # calculate the neron value : fn for sigmoid
+            else:
+                n_val = (-1 + math.exp(2 * n_sum)) / (1 + math.exp(2 * n_sum))  # fn for Hypabolic tangent
             n_val_lst.append(n_val)  # add the neuron value to a list
             k += brk
 
@@ -55,7 +59,10 @@ class DynamicNeuralVal:
 
         while k < len(o_product):
             o_sum = sum(o_product[int(k):int(k + brk)])
-            o_val = 1 / (1 + math.exp(o_sum * -1))
+            if self.function == 1:
+                o_val = 1 / (1 + math.exp(o_sum * -1))
+            else:
+                o_val = (math.exp(2 * o_sum) - 1) / (math.exp(2 * o_sum) + 1)
             out_val_last.append(o_val)
             k += brk
 
