@@ -1,15 +1,11 @@
 __author__ = 'Avantha'
 
 
-class test:
-
-    def __init__(self,a,b):
+class c1:
+    def __init__(self, a, b, c):
         self.a = a
         self.b = b
+        self.c = c
 
-
-    def mycal(self):
-        result = self.a+self.b
-
-        return result
-
+    def fk(self):
+        print(self.a, self.b, self.c)
