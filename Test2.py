@@ -1,11 +1,8 @@
 __author__ = 'Avantha'
 
+import os
 
-class c1:
-    def __init__(self, a, b, c):
-        self.a = a
-        self.b = b
-        self.c = c
 
-    def fk(self):
-        print(self.a, self.b, self.c)
+mypath = 'avantha'
+if not os.path.isdir(mypath):
+   os.makedirs(mypath)

@@ -8,13 +8,14 @@ from Graphtest import gRaph
 
 
 class tRainNet:
-    def __init__(self, nn, ln_rate, bias, tgt_er, fn, grph):
+    def __init__(self, nn, ln_rate, bias, tgt_er, fn, grph,fld_name):
         self.ads_abs_error = []
         self.nn = int(nn)
         self.ln_rate = int(ln_rate)
         self.bias = int(bias)
         self.tgt_er = float(tgt_er)
         self.fn = int(fn)
+        self.fld_name = fld_name
         self.grph = int(grph)
 
     def tRain(self):
@@ -30,10 +31,10 @@ class tRainNet:
         ads_numberof_itn = 1
 
         # user inputs !!! Makesure the same function is not called twice this will create more lists !!!!
-        file_inputs = open('data_train/train_inputs.csv', 'r')
+        file_inputs = open('_pRoject/'+self.fld_name+'/data_train/train_inputs.csv', 'r')
         text_t_in = file_inputs.read()
         file_inputs.close()
-        file_outputs = open('data_train/train_outputs.csv', 'r')
+        file_outputs = open('_pRoject/'+self.fld_name+'/data_train/train_outputs.csv', 'r')
         text_t_out = file_outputs.read()
         file_outputs.close()
 
@@ -128,7 +129,7 @@ class tRainNet:
         print('Number of iterations performed:', ads_numberof_itn)
         # -----------------------------------
         # Creating the weights file
-        ads_w_file = 'data_cnfg/ads_trained weights.txt'
+        ads_w_file = '_pRoject/'+self.fld_name+'/data_cnfg/ads_trained weights.txt'
         w_file = open(ads_w_file, 'w')
         w_file.write(str(ads_in_ws) + '\n')
         w_file.write(str(ads_out_ws) + '\n')
@@ -141,7 +142,7 @@ class tRainNet:
         end_err = self.ads_abs_error[-1]
         print(start_err)
         print(end_err)
-        ads_file = 'analysis/Ads_Err_Reduction.csv'
+        ads_file = '_pRoject/'+self.fld_name+'/analysis/Ads_Err_Reduction.csv'
         fx = open(ads_file, 'w')
         for x in self.ads_abs_error:
             fx.write(str(x) + '\n')
@@ -149,7 +150,7 @@ class tRainNet:
         print('Abs Error file write complete')
 
         # Creating setup information
-        ads_config_file = 'data_cnfg/ads_train_config_data.txt'
+        ads_config_file = '_pRoject/'+self.fld_name+'/data_cnfg/ads_train_config_data.txt'
         w_config = open(ads_config_file, 'w')
         w_config.write(str(len(in_n)) + '\n')
         w_config.write(str(len(ot_n)) + '\n')

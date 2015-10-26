@@ -3,10 +3,14 @@ __author__ = 'Avantha'
 from CommonClassfn import DynamicNeuralVal
 
 
-class vAlidate:
+class vAlidateNet:
+
+    def __init__(self,fld_name):
+        self.fld_name = fld_name
+
     def vAlidateNet(self):
 
-        in_cnfg_file = open('data_cnfg/ads_train_config_data.txt', 'r')
+        in_cnfg_file = open('_pRoject/'+self.fld_name+'/data_cnfg/ads_train_config_data.txt', 'r')
         in_cnfg_text = in_cnfg_file.read()
         c_list = in_cnfg_text.split('\n')
         c_list = [i for i in c_list if i != '']
@@ -20,7 +24,7 @@ class vAlidate:
         in_cnfg_function = c_list[7]
         in_cnfg_bias = c_list[8]
         # -----------------------------------------------------
-        in_trained_w = open('data_cnfg/ads_trained weights.txt')
+        in_trained_w = open('_pRoject/'+self.fld_name+'/data_cnfg/ads_trained weights.txt')
         in_trained_text = in_trained_w.read()
         in_trained_w.close()
         w_list = in_trained_text.split('\n')
@@ -38,10 +42,10 @@ class vAlidate:
         w_list2 = w_list2.split(',')
         w_list2 = list(map(float, w_list2))
 
-        file_inputs = open('data_validate/validate_in.csv', 'r')
+        file_inputs = open('_pRoject/'+self.fld_name+'/data_validate/validate_in.csv', 'r')
         text_t_in = file_inputs.read()
         file_inputs.close()
-        file_outputs = open('data_validate/validate_out.csv', 'r')
+        file_outputs = open('_pRoject/'+self.fld_name+'/data_validate/validate_out.csv', 'r')
         text_t_out = file_outputs.read()
         file_outputs.close()
 
@@ -102,7 +106,7 @@ class vAlidate:
                         ads_abs_error_stat.append('Validation inputs mismatch')
                 ads_itn_cntr += 1
 
-        ads_validate_rep = 'data_validate/validation_result.txt'
+        ads_validate_rep = '_pRoject/'+self.fld_name+'/data_validate/validation_result.txt'
         report_file = open(ads_validate_rep, 'w')
         for i in range(0, len(ads_abs_error_stat)):
             report_file.write('Pattern:' + str(i + 1) + '-' + str(ads_abs_error_stat[i]) + '\n')
